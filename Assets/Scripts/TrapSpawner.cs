@@ -7,7 +7,8 @@ public class TrapSpawner : MonoBehaviour
     public float spawnDistanceZ = 50f;
     public float trapSpeed = 10f;
     public float spawnRate = 2f;
-    public float spawnRangeX = 5f;
+    public float spawnRangeX = 1f;
+    public float velocSpeedMultiplier = 1f;
     public List<GameObject> trapPrefabs;
 
     private void Start()
@@ -27,8 +28,8 @@ public class TrapSpawner : MonoBehaviour
     private void SpawnTrap()
     {
         // Calcular las posiciones en un semicírculo
-        Vector3[] spawnPositions = new Vector3[5];
-        float angleStep = 180f / (spawnPositions.Length - 1);
+        Vector3[] spawnPositions = new Vector3[10];
+        float angleStep = 360f / (spawnPositions.Length - 1);
         float radius = spawnRangeX;
 
         for (int i = 0; i < spawnPositions.Length; i++)
@@ -50,6 +51,18 @@ public class TrapSpawner : MonoBehaviour
         GameObject trap = Instantiate(trapPrefab, spawnPosition, Quaternion.identity);
 
         // Asignar el script de movimiento a la trampa
-        trap.AddComponent<TrapMover>().speed = trapSpeed;
+        trap.AddComponent<TrapMover>().speed = trapSpeed * velocSpeedMultiplier;
+    }
+    
+    // Método para cambiar la velocidad de las trampas
+    public void SetVelocSpeedMultiplier(float multiplier)
+    {
+        velocSpeedMultiplier = multiplier;
+    }
+    
+    // Método para resetear la velocidad de las trampas
+    public void ResetVelocSpeedMultiplier()
+    {
+        velocSpeedMultiplier = 1f;
     }
 }
