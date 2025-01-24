@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CircularMovement : MonoBehaviour
+public class Movement : MonoBehaviour
 {
     public float radius = 5f; // Radio del círculo
     public float moveSpeed = 5f; // Velocidad de movimiento angular (grados por segundo)
