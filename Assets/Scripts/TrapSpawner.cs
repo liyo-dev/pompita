@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 public class TrapSpawner : MonoBehaviour
 {
-    public float spawnDistanceZ = 50f;
+    //public float spawnDistanceZ = 50f;
     public float trapSpeed = 10f;
     public float spawnRate = 2f;
     public float spawnRangeX = 1f;
@@ -38,7 +39,7 @@ public class TrapSpawner : MonoBehaviour
             float radian = angle * Mathf.Deg2Rad;
             float x = Mathf.Cos(radian) * radius;
             float y = Mathf.Sin(radian) * radius;
-            spawnPositions[i] = new Vector3(x, y, spawnDistanceZ);
+            spawnPositions[i] = new Vector3(x, y, Utils.Variables.SpawnDistanceZ);
         }
 
         // Elegir una posición aleatoria

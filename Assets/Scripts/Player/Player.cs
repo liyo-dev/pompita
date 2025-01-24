@@ -1,21 +1,22 @@
 using UnityEngine;
+using Utils;
 
 public class Player : MonoBehaviour
 {
-    public int maxHealth = 6;
+    //public int maxHealth = 6;
     private int currentHealth;
 
     void Start()
     {
-        currentHealth = maxHealth;
+        currentHealth = Utils.Variables.MaxHealth;
     }
 
     public void AddHealth(int amount)
     {
         currentHealth += amount;
-        if (currentHealth > maxHealth)
+        if (currentHealth > Utils.Variables.MaxHealth)
         {
-            currentHealth = maxHealth;
+            currentHealth = Utils.Variables.MaxHealth;
         }
         Debug.Log("Vida actual: " + currentHealth);
     }
