@@ -7,7 +7,7 @@ public class Movement : MonoBehaviour
     //public float moveSpeed = 50f; // Velocidad de movimiento angular (grados por segundo)
 
     private Rigidbody _rb;
-    private float currentAngle = 0f; // Ángulo actual en grados
+    private float currentAngle = 270f; // Ángulo actual en grados
 
     private void Awake()
     {
