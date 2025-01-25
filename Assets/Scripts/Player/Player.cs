@@ -1,8 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using Utils;
-using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -10,7 +8,9 @@ public class Player : MonoBehaviour
     private int currentHealth;
     [SerializeField] private TextMeshProUGUI vidasText;
     public UnityEvent OnPlayerDeath;
-
+    public int currentScore = 0;
+    
+    
     void Start()
     {
         currentHealth = 1;
@@ -40,6 +40,7 @@ public class Player : MonoBehaviour
 
     private void GameOver()
     {
+        GoogleSheetsRanking.Instance.currentScore = currentScore;
         OnPlayerDeath.Invoke();
     }
 

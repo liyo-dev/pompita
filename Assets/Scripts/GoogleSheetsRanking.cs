@@ -20,9 +20,11 @@ public class GoogleSheetsRanking : MonoBehaviour
     public UnityAction OnRankingUpdated;
 
     private string apiUrl =
-        "https://script.google.com/macros/s/AKfycbzG7n8NBewXTedQXRe6qKVGvKAAik4n_IoRjEhXoCeWANHgDxkLOSt778B_0s4O_JphVQ/exec";
+        "https://script.google.com/macros/s/AKfycbyMK-ZvWhvDgxf681dUt4m9n1dFBnAvdf9_G3ss49zR0LH8jIfPizgasQPz9YmnTbHjKw/exec";
     
     private List<string> top5List = new List<string>();
+
+    public int currentScore;
     
     private void Awake()
     {
@@ -62,8 +64,9 @@ public class GoogleSheetsRanking : MonoBehaviour
 
                 if (rankingData != null && rankingData.ranking != null)
                 {
-                    int count = 0;
+                    rankingData.ranking.Sort((a, b) => b.puntuacion.CompareTo(a.puntuacion));
 
+                    int count = 0;
                     top5List.Clear();
                     
                     foreach (var entry in rankingData.ranking)
@@ -98,24 +101,27 @@ public class GoogleSheetsRanking : MonoBehaviour
     {
         StartCoroutine(EnviarPuntuacionCoroutine(nombre, puntuacion));
     }
-
+    
     IEnumerator EnviarPuntuacionCoroutine(string nombre, int puntuacion)
     {
-        WWWForm form = new WWWForm();
-        form.AddField("nombre", nombre);
-        form.AddField("puntuacion", puntuacion.ToString());
+        PlayerScore data = new PlayerScore { nombre = nombre, puntuacion = puntuacion };
+        string jsonData = JsonUtility.ToJson(data);
 
-        using (UnityWebRequest www = UnityWebRequest.Post(apiUrl, form))
+        Debug.Log($"🛠 JSON que se enviará: {jsonData}");
+
+        using (UnityWebRequest www = new UnityWebRequest(apiUrl, "POST"))
         {
+            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
+            www.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            www.downloadHandler = new DownloadHandlerBuffer();
+            www.SetRequestHeader("Content-Type", "application/json");
+
             yield return www.SendWebRequest();
 
-            if (www.result == UnityWebRequest.Result.Success)
-                Debug.Log("Puntuación enviada correctamente");
-            else
-                Debug.LogError("Error al enviar: " + www.error);
+            Debug.Log($"📨 Respuesta del servidor: {www.downloadHandler.text}");
         }
     }
-
+    
     public void ObtenerRanking()
     {
         StartCoroutine(ObtenerRankingCoroutine());
@@ -130,7 +136,6 @@ public class GoogleSheetsRanking : MonoBehaviour
             if (www.result == UnityWebRequest.Result.Success)
             {
                 string jsonData = www.downloadHandler.text;
-                Debug.Log("📥 Datos Recibidos: " + jsonData);
 
                 // Deserializar usando el wrapper
                 RankingWrapper rankingData = JsonUtility.FromJson<RankingWrapper>("{\"ranking\":" + jsonData + "}");
