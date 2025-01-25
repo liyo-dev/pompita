@@ -14,17 +14,86 @@ public class RankingWrapper
 
 public class GoogleSheetsRanking : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI rankingText;
-    
-    public UnityEvent OnRankingUpdated;
-    
-    private string apiUrl = "https://script.google.com/macros/s/AKfycbzG7n8NBewXTedQXRe6qKVGvKAAik4n_IoRjEhXoCeWANHgDxkLOSt778B_0s4O_JphVQ/exec";
+    public static GoogleSheetsRanking Instance { get; private set; }
 
-    private void Start()
+    [SerializeField] private TextMeshProUGUI rankingText;
+    public UnityAction OnRankingUpdated;
+
+    private string apiUrl =
+        "https://script.google.com/macros/s/AKfycbzG7n8NBewXTedQXRe6qKVGvKAAik4n_IoRjEhXoCeWANHgDxkLOSt778B_0s4O_JphVQ/exec";
+    
+    private List<string> top5List = new List<string>();
+    
+    private void Awake()
     {
-        ObtenerRanking();
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
+    public void Reset()
+    {
+        rankingText.text = "";
+    }
+    
+    public void GetTop5()
+    {
+        StartCoroutine(GetTop5Coroutine());
+    }
+
+    public IEnumerator GetTop5Coroutine()
+    {
+        using (UnityWebRequest www = UnityWebRequest.Get(apiUrl))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                string jsonData = www.downloadHandler.text;
+                
+                // Deserializar usando el wrapper
+                RankingWrapper rankingData = JsonUtility.FromJson<RankingWrapper>("{\"ranking\":" + jsonData + "}");
+
+                if (rankingData != null && rankingData.ranking != null)
+                {
+                    int count = 0;
+
+                    top5List.Clear();
+                    
+                    foreach (var entry in rankingData.ranking)
+                    {
+                        if (count >= 5) break;
+                        Debug.Log($"🏆 Jugador: {entry.nombre} - Puntos: {entry.puntuacion}");
+                        top5List.Add($"{entry.nombre} - {entry.puntuacion}");
+                        count++;
+                    }
+                    
+                    OnRankingUpdated.Invoke();
+                }
+                else
+                {
+                    Debug.LogError("⚠ Error al deserializar JSON. Verifica el formato.");
+                }
+            }
+            else
+            {
+                Debug.LogError("❌ Error al obtener ranking: " + www.error);
+            }
+        }
+    }
+
+    public List<string> GetTop5String()
+    {
+        return top5List;
+    }
+    
+    
     public void EnviarPuntuacion(string nombre, int puntuacion)
     {
         StartCoroutine(EnviarPuntuacionCoroutine(nombre, puntuacion));
@@ -46,7 +115,7 @@ public class GoogleSheetsRanking : MonoBehaviour
                 Debug.LogError("Error al enviar: " + www.error);
         }
     }
-    
+
     public void ObtenerRanking()
     {
         StartCoroutine(ObtenerRankingCoroutine());
@@ -71,9 +140,13 @@ public class GoogleSheetsRanking : MonoBehaviour
                     foreach (var entry in rankingData.ranking)
                     {
                         Debug.Log($"🏆 Jugador: {entry.nombre} - Puntos: {entry.puntuacion}");
-                        rankingText.text += $"{entry.nombre} - {entry.puntuacion}\n";
+
+                        if (rankingText != null)
+                        {
+                            rankingText.text += $"{entry.nombre} - {entry.puntuacion}\n";
+                        }
                     }
-                    
+
                     OnRankingUpdated.Invoke();
                 }
                 else
@@ -87,5 +160,4 @@ public class GoogleSheetsRanking : MonoBehaviour
             }
         }
     }
-
 }
