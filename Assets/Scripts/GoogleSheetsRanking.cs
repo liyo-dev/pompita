@@ -16,7 +16,9 @@ public class GoogleSheetsRanking : MonoBehaviour
 {
     public static GoogleSheetsRanking Instance { get; private set; }
 
-    [SerializeField] private TextMeshProUGUI rankingText;
+    [SerializeField] private TextMeshProUGUI rankingTextPrefab;
+    [SerializeField] private Transform contentPanel;
+    [SerializeField] private GameObject ScrollView;
     public UnityAction OnRankingUpdated;
 
     private string apiUrl =
@@ -39,9 +41,15 @@ public class GoogleSheetsRanking : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        Reset();
+    }
+
     public void Reset()
     {
-        rankingText.text = "";
+        ScrollView.SetActive(false);
+        rankingTextPrefab.text = "";
     }
     
     public void GetTop5()
@@ -124,6 +132,7 @@ public class GoogleSheetsRanking : MonoBehaviour
     
     public void ObtenerRanking()
     {
+        ScrollView.SetActive(true);
         StartCoroutine(ObtenerRankingCoroutine());
     }
 
@@ -151,9 +160,10 @@ public class GoogleSheetsRanking : MonoBehaviour
                     {
                         Debug.Log($"🏆 Jugador: {entry.nombre} - Puntos: {entry.puntuacion}");
 
-                        if (rankingText != null)
+                        if (contentPanel != null && rankingTextPrefab != null)
                         {
-                            rankingText.text += $"{i}.- {entry.nombre} - {entry.puntuacion}\n";
+                            TextMeshProUGUI newText = Instantiate(rankingTextPrefab, contentPanel);
+                            newText.text = $"{i}.- {entry.nombre} - {entry.puntuacion}";
                             i++;
                         }
                     }
