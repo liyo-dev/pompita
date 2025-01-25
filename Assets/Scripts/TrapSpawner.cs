@@ -11,6 +11,10 @@ public class TrapSpawner : MonoBehaviour
     public float velocSpeedMultiplier = 1f;
     public List<GameObject> trapPrefabs;
 
+    // 0 -> Puntos
+    // 1 -> Bomba
+    // 2 -> Vida
+
     private void Start()
     {
         StartCoroutine(SpawnTraps());
