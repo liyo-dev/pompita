@@ -6,6 +6,7 @@ public class ScorePoints : MonoBehaviour
     public void AddScore(int amount)
     {
         GoogleSheetsRanking.Instance.currentScore += amount;
+        ScoreUIManager.Instance.UpdateUI();
     }
     
     private void OnTriggerEnter(Collider other)
