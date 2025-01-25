@@ -11,6 +11,10 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Clips")]
     public AudioClip backgroundMusic; // Música de fondo inicial
 
+    [Header("Audios SFX")]
+    public AudioClip[] auchList;
+    public AudioClip[] wihList;
+
     private void Awake()
     {
         // Singleton pattern
@@ -50,8 +54,30 @@ public class AudioManager : MonoBehaviour
     {
         if (clip != null)
         {
+            sfxSource.pitch = Random.Range(.9f, 1.1f);
             sfxSource.PlayOneShot(clip); // No interrumpe otros sonidos
         }
+    }
+
+    public void PlayAuch()
+    {
+        PlaySoundList(auchList);
+    }
+
+    public void PlayWih()
+    {
+        PlaySoundList(wihList);
+    }
+
+    public void PlaySoundList(AudioClip[] list)
+    {
+        if (list.Length == 0)
+            return;
+
+        int n = Random.Range(0, list.Length);
+
+        AudioClip clip = list[n];
+        PlaySFX(clip);
     }
 
     // Cambiar el volumen de la música
