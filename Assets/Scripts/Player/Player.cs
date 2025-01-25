@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using Utils;
 using UnityEngine.UI;
 
@@ -8,7 +9,7 @@ public class Player : MonoBehaviour
     //public int maxHealth = 6;
     private int currentHealth;
     [SerializeField] private TextMeshProUGUI vidasText;
-    [SerializeField] private Button resetButton;
+    public UnityEvent OnPlayerDeath;
 
     void Start()
     {
@@ -39,7 +40,7 @@ public class Player : MonoBehaviour
 
     private void GameOver()
     {
-        resetButton.gameObject.SetActive(true);
+        OnPlayerDeath.Invoke();
     }
 
     private void UpdateHealthText()
