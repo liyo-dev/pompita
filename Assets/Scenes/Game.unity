@@ -1254,6 +1254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1508651257}
   - component: {fileID: 1508651258}
+  - component: {fileID: 1508651259}
   m_Layer: 0
   m_Name: LoadSceneManager
   m_TagString: Untagged
@@ -1288,6 +1289,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dff36d9df8578844b4a4418ad116f6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1508651259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508651256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716db083bff30d845a97c16739e94420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocityGame: 1
+  TimeBetweenLevels: 5
+  player: {fileID: 1867876632}
+  trapSpawner: {fileID: 862929497}
+  dotRotate: {fileID: 351087169}
 --- !u!1 &1618714291
 GameObject:
   m_ObjectHideFlags: 0
