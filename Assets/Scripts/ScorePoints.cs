@@ -17,6 +17,7 @@ public class ScorePoints : MonoBehaviour
             if (player != null)
             {
                 player.InstantiateRewardVFX();
+                player.AddPoint();
                 AddScore(scoreAmount);
                 Destroy(gameObject);
             }

@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour
     [Header("Audios SFX")]
     public AudioClip[] auchList;
     public AudioClip[] wihList;
+    public AudioClip[] popList;
 
     private void Awake()
     {
@@ -57,6 +58,11 @@ public class AudioManager : MonoBehaviour
             sfxSource.pitch = Random.Range(.9f, 1.1f);
             sfxSource.PlayOneShot(clip); // No interrumpe otros sonidos
         }
+    }
+
+    public void PlayPop()
+    {
+        PlaySoundList(popList);
     }
 
     public void PlayAuch()
