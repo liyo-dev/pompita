@@ -120,6 +120,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bombi
       objectReference: {fileID: 0}
+    - target: {fileID: 6072558819854770846, guid: b46649fb0962ae643887434770753096, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

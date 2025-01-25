@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour
     [Header("Audios SFX")]
     public AudioClip[] auchList;
     public AudioClip[] wihList;
+    public AudioClip[] popList;
 
     private void Awake()
     {
