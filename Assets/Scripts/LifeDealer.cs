@@ -10,6 +10,7 @@ public class LifeDealer : MonoBehaviour
             Player player = other.GetComponent<Player>();
             if (player != null)
             {
+                player.InstantiateExtraLifeVFX();
                 player.AddHealth(lifeAmount);
                 Destroy(gameObject);
             }
