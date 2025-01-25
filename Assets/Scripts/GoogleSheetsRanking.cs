@@ -139,6 +139,11 @@ public class GoogleSheetsRanking : MonoBehaviour
 
                 // Deserializar usando el wrapper
                 RankingWrapper rankingData = JsonUtility.FromJson<RankingWrapper>("{\"ranking\":" + jsonData + "}");
+                
+                //Ordenamos la lista por puntos
+                rankingData.ranking.Sort((a, b) => b.puntuacion.CompareTo(a.puntuacion));
+
+                int i = 1;
 
                 if (rankingData != null && rankingData.ranking != null)
                 {
@@ -148,7 +153,8 @@ public class GoogleSheetsRanking : MonoBehaviour
 
                         if (rankingText != null)
                         {
-                            rankingText.text += $"{entry.nombre} - {entry.puntuacion}\n";
+                            rankingText.text += $"{i}.- {entry.nombre} - {entry.puntuacion}\n";
+                            i++;
                         }
                     }
 
