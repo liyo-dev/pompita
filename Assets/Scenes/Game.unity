@@ -1331,7 +1331,7 @@ GameObject:
   - component: {fileID: 1678814159}
   m_Layer: 5
   m_Name: TextSCore
-  m_TagString: Untagged
+  m_TagString: TextScore
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
