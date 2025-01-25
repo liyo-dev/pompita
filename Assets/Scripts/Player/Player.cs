@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     private int currentHealth;
     private Animator animator;
     [SerializeField] private TextMeshProUGUI vidasText;
+
     public UnityEvent OnPlayerDeath;
 
     private void Awake()
@@ -29,9 +30,8 @@ public class Player : MonoBehaviour
     public void AddHealth(int amount)
     {
         currentHealth += amount;
-        //AudioManager.Instance.PlayWih();
-        //animator.Play("Pompi vida");
         AudioManager.Instance.PlayPop();
+        // TODO: Hacer que crezca un poco
         if (currentHealth > Utils.Variables.MaxHealth)
         {
             currentHealth = Utils.Variables.MaxHealth;
@@ -62,5 +62,10 @@ public class Player : MonoBehaviour
     private void UpdateHealthText()
     {
         vidasText.text = "Vidas: " + currentHealth;
+    }
+
+    public void ChangeVelocity(float velocity)
+    {
+        animator.speed = velocity;
     }
 }

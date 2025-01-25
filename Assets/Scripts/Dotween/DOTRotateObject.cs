@@ -8,10 +8,17 @@ public class DOTRotateObject : MonoBehaviour
     public LoopType loopType = LoopType.Restart; 
     public Ease easeType = Ease.Linear;
 
+    private Tween rotationTween;
+
     void Start()
     {
-        transform.DORotate(new Vector3(0, 0, -rotationAmount), duration, RotateMode.FastBeyond360)
+        rotationTween = transform.DORotate(new Vector3(0, 0, -rotationAmount), duration, RotateMode.FastBeyond360)
             .SetEase(easeType)
             .SetLoops(-1, loopType).Play();
+    }
+
+    public void IncrementVelocity(float velocity)
+    {
+        rotationTween.timeScale = velocity;
     }
 }
