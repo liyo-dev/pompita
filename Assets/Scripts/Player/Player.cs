@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
         currentHealth += amount;
         //AudioManager.Instance.PlayWih();
         //animator.Play("Pompi vida");
+        AudioManager.Instance.PlayPop();
         if (currentHealth > Utils.Variables.MaxHealth)
         {
             currentHealth = Utils.Variables.MaxHealth;

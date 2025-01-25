@@ -60,6 +60,11 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayPop()
+    {
+        PlaySoundList(popList);
+    }
+
     public void PlayAuch()
     {
         PlaySoundList(auchList);
