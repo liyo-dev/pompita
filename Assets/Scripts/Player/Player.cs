@@ -8,7 +8,6 @@ public class Player : MonoBehaviour
     [SerializeField] private TextMeshProUGUI vidasText;
     private int currentHealth;
     private Animator animator;
-    [SerializeField] private TextMeshProUGUI vidasText;
     private Camera cam;
     public UnityEvent OnPlayerDeath;
     public GameObject VFXDead;
@@ -102,6 +101,8 @@ public class Player : MonoBehaviour
     public void ChangeVelocity(float velocity)
     {
         animator.speed = velocity;
+    }
+
     private void ShakeCam()
     {
         StartCoroutine(ShakeCameraCoroutine());
