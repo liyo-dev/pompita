@@ -45,7 +45,7 @@ public class RankingService : MonoBehaviour
 
     public void Reset()
     {
-       // rankingInstance.Reset();
+       rankingInstance.Reset();
     }
 
     public void GetTop5()

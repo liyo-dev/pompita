@@ -13,10 +13,14 @@ public class Player : MonoBehaviour
     public GameObject VFXDead;
     public GameObject VFXReward;
     public GameObject VFXExtraLife;
+    public GameObject Life0;
     public GameObject Life1;
-    public GameObject Life25;
-    public GameObject Life75;
-    public GameObject Life100;
+    public GameObject Life2;
+    public GameObject Life3;
+    public GameObject Life4;
+    public GameObject Life5;
+    public GameObject Life6;
+
 
     private void Awake()
     {
@@ -43,7 +47,7 @@ public class Player : MonoBehaviour
         ManageLifeUI();
 
         AudioManager.Instance.PlayPop();
-        // TODO: Hacer que crezca un poco
+
         if (currentHealth > Utils.Variables.MaxHealth)
         {
             currentHealth = Utils.Variables.MaxHealth;
@@ -54,33 +58,14 @@ public class Player : MonoBehaviour
 
     void ManageLifeUI()
     {
-        switch (currentHealth)
-        {
-            case 1:
-                Life1.SetActive(true);
-                Life25.SetActive(false);
-                Life75.SetActive(false);
-                Life100.SetActive(false);
-                break;
-            case 2:
-                Life25.SetActive(true);
-                Life1.SetActive(false);
-                Life75.SetActive(false);
-                Life100.SetActive(false);
-                break;
-            case 4:
-                Life75.SetActive(true);
-                Life25.SetActive(false);
-                Life1.SetActive(false);
-                Life100.SetActive(false);
-                break;
-            case 6:
-                Life100.SetActive(true);
-                Life25.SetActive(false);
-                Life75.SetActive(false);
-                Life1.SetActive(false);
-                break;
-        }
+        Life0.SetActive(currentHealth == 0);
+        Life1.SetActive(currentHealth == 1);
+        Life2.SetActive(currentHealth == 2);
+        Life3.SetActive(currentHealth == 3);
+        Life4.SetActive(currentHealth == 4);
+        Life5.SetActive(currentHealth == 5);
+        Life6.SetActive(currentHealth == 6);
+
     }
 
     public void SubtractHealth(int amount)

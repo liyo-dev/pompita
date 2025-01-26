@@ -36,44 +36,49 @@ public class TrapSpawner : MonoBehaviour
     }
     
     // Método para ajustar las probabilidades de las trampas
-    private void AdjustTrapProbabilities()
+private void AdjustTrapProbabilities()
+{
+    // Filtrar los prefabs por tipo
+    List<GameObject> bombs = new List<GameObject>();
+    List<GameObject> lives = new List<GameObject>();
+    List<GameObject> points = new List<GameObject>();
+
+    foreach (var trap in trapPrefabs)
     {
-        // Filtrar los prefabs por tipo
-        List<GameObject> bombs = new List<GameObject>();
-        List<GameObject> lives = new List<GameObject>();
-        List<GameObject> points = new List<GameObject>();
-
-        foreach (var trap in trapPrefabs)
-        {
-            if (trap.name.Contains("BOMBA")) // Asegúrate de que el nombre contenga "Bomba"
-                bombs.Add(trap);
-            else if (trap.name.Contains("EXTRALIFE")) // Asegúrate de que el nombre contenga "Vida"
-                lives.Add(trap);
-            else
-                points.Add(trap);
-        }
-
-        // Ajustar probabilidades
-        trapPrefabs.Clear();
-
-        int bombCount = Mathf.Clamp(5 + velocityGameController.Level, 5, 15); // Incrementa bombas
-        int lifeCount = Mathf.Clamp(5 - velocityGameController.Level, 1, 5);  // Reduce vidas
-
-        // Añadir bombas más veces en la lista para aumentar su probabilidad
-        for (int i = 0; i < bombCount; i++)
-        {
-            if (bombs.Count > 0) trapPrefabs.Add(bombs[Random.Range(0, bombs.Count)]);
-        }
-
-        // Añadir vidas menos veces en la lista para reducir su probabilidad
-        for (int i = 0; i < lifeCount; i++)
-        {
-            if (lives.Count > 0) trapPrefabs.Add(lives[Random.Range(0, lives.Count)]);
-        }
-
-        // Mantener los puntos en la lista
-        trapPrefabs.AddRange(points);
+        if (trap.name.Contains("BOMBA")) 
+            bombs.Add(trap);
+        else if (trap.name.Contains("EXTRALIFE")) 
+            lives.Add(trap);
+        else
+            points.Add(trap);
     }
+
+    // Ajustar probabilidades dinámicamente
+    trapPrefabs.Clear();
+
+    int bombCount = Mathf.Clamp(5 + velocityGameController.Level * 3, 5, 50);  // Aumenta con el nivel
+    int lifeCount = Mathf.Clamp(5 - velocityGameController.Level, 0, 5);       // Reduce con el nivel
+    int pointCount = Mathf.Clamp(5 + velocityGameController.Level * 2, 5, 100); // Más puntos con nivel
+
+    // Añadir bombas a la lista
+    for (int i = 0; i < bombCount; i++)
+    {
+        if (bombs.Count > 0) trapPrefabs.Add(bombs[Random.Range(0, bombs.Count)]);
+    }
+
+    // Añadir vidas a la lista (menos con el nivel)
+    for (int i = 0; i < lifeCount; i++)
+    {
+        if (lives.Count > 0) trapPrefabs.Add(lives[Random.Range(0, lives.Count)]);
+    }
+
+    // Añadir puntos a la lista
+    for (int i = 0; i < pointCount; i++)
+    {
+        if (points.Count > 0) trapPrefabs.Add(points[Random.Range(0, points.Count)]);
+    }
+}
+
 
     private IEnumerator SpawnTraps()
     {
