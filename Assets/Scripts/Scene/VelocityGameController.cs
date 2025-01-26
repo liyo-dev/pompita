@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class VelocityGameController : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class VelocityGameController : MonoBehaviour
     public DOTRotateObject dotRotate;
     public GameObject VFXConfeti;
     public TextMeshProUGUI nivel;
+    public UnityAction OnIncrementLevel;
 
     private void Start()
     {
@@ -21,7 +23,6 @@ public class VelocityGameController : MonoBehaviour
 
     private void IncrementLevel()
     {
-        Debug.Log("Invoco incremento");
         if (level == 40)
         {
             CancelInvoke();
@@ -29,6 +30,7 @@ public class VelocityGameController : MonoBehaviour
         }
 
         level++;
+        OnIncrementLevel?.Invoke();
         UpdateTextLevel();
         InstantiateConfetiVFX();
         velocityGame *= 1.05f;

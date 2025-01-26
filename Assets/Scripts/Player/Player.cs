@@ -13,6 +13,10 @@ public class Player : MonoBehaviour
     public GameObject VFXDead;
     public GameObject VFXReward;
     public GameObject VFXExtraLife;
+    public GameObject Life1;
+    public GameObject Life25;
+    public GameObject Life75;
+    public GameObject Life100;
 
     private void Awake()
     {
@@ -35,18 +39,56 @@ public class Player : MonoBehaviour
     public void AddHealth(int amount)
     {
         currentHealth += amount;
+
+        ManageLifeUI();
+
         AudioManager.Instance.PlayPop();
         // TODO: Hacer que crezca un poco
         if (currentHealth > Utils.Variables.MaxHealth)
         {
             currentHealth = Utils.Variables.MaxHealth;
         }
+
         UpdateHealthText();
+    }
+
+    void ManageLifeUI()
+    {
+        switch (currentHealth)
+        {
+            case 1:
+                Life1.SetActive(true);
+                Life25.SetActive(false);
+                Life75.SetActive(false);
+                Life100.SetActive(false);
+                break;
+            case 2:
+                Life25.SetActive(true);
+                Life1.SetActive(false);
+                Life75.SetActive(false);
+                Life100.SetActive(false);
+                break;
+            case 4:
+                Life75.SetActive(true);
+                Life25.SetActive(false);
+                Life1.SetActive(false);
+                Life100.SetActive(false);
+                break;
+            case 6:
+                Life100.SetActive(true);
+                Life25.SetActive(false);
+                Life75.SetActive(false);
+                Life1.SetActive(false);
+                break;
+        }
     }
 
     public void SubtractHealth(int amount)
     {
         currentHealth -= amount;
+        
+        ManageLifeUI();
+        
         AudioManager.Instance.PlayAuch();
         if (currentHealth <= 0)
         {
@@ -61,25 +103,26 @@ public class Player : MonoBehaviour
             animator.Play("Pompi muerte");
             InstantiateDeaadVFX();
         }
+
         UpdateHealthText();
     }
 
     void InstantiateDeaadVFX()
     {
         ShakeCam();
-        var dead_vfx = Instantiate(VFXDead, transform.position, Quaternion.identity);   
+        var dead_vfx = Instantiate(VFXDead, transform.position, Quaternion.identity);
         Destroy(dead_vfx, 1f);
     }
-    
+
     public void InstantiateRewardVFX()
     {
-        var reward_vfx = Instantiate(VFXReward, transform.position, Quaternion.identity);   
+        var reward_vfx = Instantiate(VFXReward, transform.position, Quaternion.identity);
         Destroy(reward_vfx, 1f);
     }
-    
+
     public void InstantiateExtraLifeVFX()
     {
-        var extraLife_vfx = Instantiate(VFXExtraLife, transform.position, Quaternion.identity);   
+        var extraLife_vfx = Instantiate(VFXExtraLife, transform.position, Quaternion.identity);
         Destroy(extraLife_vfx, 1f);
     }
 

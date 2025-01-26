@@ -3,11 +3,12 @@ using Utils;
 
 public class Movement : MonoBehaviour
 {
-    //public float radius = 5f; // Radio del círculo
+    //public float radius = 5f; // Radio del cï¿½rculo
     //public float moveSpeed = 50f; // Velocidad de movimiento angular (grados por segundo)
 
     private Rigidbody _rb;
-    private float currentAngle = 270f; // Ángulo actual en grados
+    private float currentAngle = 270f; // ï¿½ngulo actual en grados
+    private float currentZAxis = 0f;
 
     private void Awake()
     {
@@ -16,16 +17,17 @@ public class Movement : MonoBehaviour
 
     private void Start()
     {
-        // Pone en la posición inicial
-        // Convierte el ángulo a radianes
+        // Pone en la posiciï¿½n inicial
+        // Convierte el ï¿½ngulo a radianes
         float radians = currentAngle * Mathf.Deg2Rad;
 
-        // Calcula la nueva posición en el círculo en el plano X-Y
+        // Calcula la nueva posiciï¿½n en el cï¿½rculo en el plano X-Y
         float x = Mathf.Cos(radians) * Utils.Variables.Radius;
         float y = Mathf.Sin(radians) * Utils.Variables.Radius;
 
-        // Calcula la nueva posición en 3D y aplica al Rigidbody
+        // Calcula la nueva posiciï¿½n en 3D y aplica al Rigidbody
         Vector3 newPosition = new Vector3(x, y, transform.position.z); // Mantener la componente Z original
+        currentZAxis = transform.position.z;
         _rb.MovePosition(newPosition);
     }
 
@@ -33,18 +35,19 @@ public class Movement : MonoBehaviour
     {
         currentAngle += GetInput() * Utils.Variables.PlayerSpeed * Time.deltaTime;
 
-        // Mantén el ángulo dentro de 0-360 grados
+        // Mantï¿½n el ï¿½ngulo dentro de 0-360 grados
         currentAngle %= 360f;
 
-        // Convierte el ángulo a radianes
+        // Convierte el ï¿½ngulo a radianes
         float radians = currentAngle * Mathf.Deg2Rad;
 
-        // Calcula la nueva posición en el círculo en el plano X-Y
+        // Calcula la nueva posiciï¿½n en el cï¿½rculo en el plano X-Y
         float x = Mathf.Cos(radians) * Utils.Variables.Radius;
         float y = Mathf.Sin(radians) * Utils.Variables.Radius;
 
-        // Calcula la nueva posición en 3D y aplica al Rigidbody
-        Vector3 newPosition = new Vector3(x, y, transform.position.z); // Mantener la componente Z original
+        // Calcula la nueva posiciï¿½n en 3D y aplica al Rigidbody
+        Vector3 newPosition = new Vector3(x, y, currentZAxis); // Mantener la componente Z original
+        transform.rotation = Quaternion.Euler(0, 180f, 0);
         _rb.MovePosition(newPosition);
     }
 

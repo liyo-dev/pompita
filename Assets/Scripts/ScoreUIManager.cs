@@ -28,7 +28,7 @@ public class ScoreUIManager : MonoBehaviour
 
     public void UpdateUI()
     {
-        scoreText.text = "Score: " + GoogleSheetsRanking.Instance.currentScore;
+        scoreText.text = "" + GoogleSheetsRanking.Instance.currentScore;
     }
 
     public void UpdateScoreTextReference()

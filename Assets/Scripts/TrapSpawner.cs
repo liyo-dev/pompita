@@ -10,6 +10,7 @@ public class TrapSpawner : MonoBehaviour
     public float spawnRangeX = 1f;
     public float velocSpeedMultiplier = 1f;
     public List<GameObject> trapPrefabs;
+    private VelocityGameController velocityGameController;
 
     // 0 -> Puntos
     // 1 -> Bomba
@@ -17,7 +18,14 @@ public class TrapSpawner : MonoBehaviour
 
     private void Start()
     {
+        velocityGameController = FindObjectOfType<VelocityGameController>();
+        velocityGameController.OnIncrementLevel += IncrementLevel;
         StartCoroutine(SpawnTraps());
+    }
+
+    private void IncrementLevel()
+    {
+        
     }
 
     private IEnumerator SpawnTraps()

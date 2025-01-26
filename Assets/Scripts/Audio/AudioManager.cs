@@ -5,11 +5,13 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
 
     [Header("Audio Sources")]
-    public AudioSource musicSource;  // Para la música de fondo
+    public AudioSource musicSource;  // Para la mï¿½sica de fondo
     public AudioSource sfxSource;   // Para los efectos de sonido
 
     [Header("Audio Clips")]
-    public AudioClip backgroundMusic; // Música de fondo inicial
+    public AudioClip backgroundMenuMusic; // Mï¿½sica de fondo inicial
+    public AudioClip backgroundGameMusic; // Mï¿½sica de fondo inicial
+    public AudioClip backgroundEpicMusic; // Mï¿½sica de fondo inicial
 
     [Header("Audios SFX")]
     public AudioClip[] auchList;
@@ -29,23 +31,15 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    
 
-    private void Start()
-    {
-        // Inicia la música de fondo si hay un clip asignado
-        if (backgroundMusic != null)
-        {
-            PlayMusic(backgroundMusic);
-        }
-    }
-
-    // Reproducir música de fondo
+    // Reproducir mï¿½sica de fondo
     public void PlayMusic(AudioClip clip)
     {
-        if (clip != null)
+        if (clip != null && musicSource.clip != clip)
         {
             musicSource.clip = clip;
-            musicSource.loop = true; // La música suele repetirse
+            musicSource.loop = true; // La mÃºsica suele repetirse
             musicSource.Play();
         }
     }
@@ -86,7 +80,7 @@ public class AudioManager : MonoBehaviour
         PlaySFX(clip);
     }
 
-    // Cambiar el volumen de la música
+    // Cambiar el volumen de la mï¿½sica
     public void SetMusicVolume(float volume)
     {
         musicSource.volume = Mathf.Clamp01(volume); // Entre 0 y 1
@@ -96,5 +90,20 @@ public class AudioManager : MonoBehaviour
     public void SetSFXVolume(float volume)
     {
         sfxSource.volume = Mathf.Clamp01(volume); // Entre 0 y 1
+    }
+
+    public void PlayMenu()
+    {
+        PlayMusic(backgroundMenuMusic);
+    }
+    
+    public void PlayGame()
+    {
+        PlayMusic(backgroundGameMusic);
+    }
+    
+    public void PlayEpic()
+    {
+        PlayMusic(backgroundEpicMusic);
     }
 }

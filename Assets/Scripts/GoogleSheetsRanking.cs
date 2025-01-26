@@ -21,13 +21,11 @@ public class GoogleSheetsRanking : MonoBehaviour
     [SerializeField] private GameObject ScrollView;
     public UnityAction OnRankingUpdated;
 
-    private string apiUrl =
-        "https://script.google.com/macros/s/AKfycbyMK-ZvWhvDgxf681dUt4m9n1dFBnAvdf9_G3ss49zR0LH8jIfPizgasQPz9YmnTbHjKw/exec";
-    
-    private List<string> top5List = new List<string>();
+    private string apiUrl = "https://script.google.com/macros/s/AKfycbyMK-ZvWhvDgxf681dUt4m9n1dFBnAvdf9_G3ss49zR0LH8jIfPizgasQPz9YmnTbHjKw/exec";
 
+    private List<string> top5List = new List<string>();
     public int currentScore;
-    
+
     private void Awake()
     {
         if (Instance == null)
@@ -41,23 +39,26 @@ public class GoogleSheetsRanking : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        Reset();
-    }
-
     public void Reset()
     {
         ScrollView.SetActive(false);
         rankingTextPrefab.text = "";
+        top5List.Clear();
+        currentScore = 0;
+
+        foreach (Transform child in contentPanel)
+        {
+            Destroy(child.gameObject);
+        }
     }
-    
+
     public void GetTop5()
     {
+        Reset(); // Asegura un estado limpio antes de la petición
         StartCoroutine(GetTop5Coroutine());
     }
 
-    public IEnumerator GetTop5Coroutine()
+    private IEnumerator GetTop5Coroutine()
     {
         using (UnityWebRequest www = UnityWebRequest.Get(apiUrl))
         {
@@ -66,17 +67,16 @@ public class GoogleSheetsRanking : MonoBehaviour
             if (www.result == UnityWebRequest.Result.Success)
             {
                 string jsonData = www.downloadHandler.text;
-                
-                // Deserializar usando el wrapper
+                Debug.Log($"📥 JSON recibido: {jsonData}");
+
                 RankingWrapper rankingData = JsonUtility.FromJson<RankingWrapper>("{\"ranking\":" + jsonData + "}");
 
-                if (rankingData != null && rankingData.ranking != null)
+                if (rankingData != null && rankingData.ranking != null && rankingData.ranking.Count > 0)
                 {
                     rankingData.ranking.Sort((a, b) => b.puntuacion.CompareTo(a.puntuacion));
+                    top5List.Clear();
 
                     int count = 0;
-                    top5List.Clear();
-                    
                     foreach (var entry in rankingData.ranking)
                     {
                         if (count >= 5) break;
@@ -84,8 +84,8 @@ public class GoogleSheetsRanking : MonoBehaviour
                         top5List.Add($"{entry.nombre} - {entry.puntuacion}");
                         count++;
                     }
-                    
-                    OnRankingUpdated.Invoke();
+
+                    if (OnRankingUpdated != null) OnRankingUpdated.Invoke();
                 }
                 else
                 {
@@ -94,7 +94,7 @@ public class GoogleSheetsRanking : MonoBehaviour
             }
             else
             {
-                Debug.LogError("❌ Error al obtener ranking: " + www.error);
+                Debug.LogError($"❌ Error HTTP: {www.responseCode}, Detalle: {www.error}");
             }
         }
     }
@@ -103,14 +103,13 @@ public class GoogleSheetsRanking : MonoBehaviour
     {
         return top5List;
     }
-    
-    
+
     public void EnviarPuntuacion(string nombre, int puntuacion)
     {
         StartCoroutine(EnviarPuntuacionCoroutine(nombre, puntuacion));
     }
-    
-    IEnumerator EnviarPuntuacionCoroutine(string nombre, int puntuacion)
+
+    private IEnumerator EnviarPuntuacionCoroutine(string nombre, int puntuacion)
     {
         PlayerScore data = new PlayerScore { nombre = nombre, puntuacion = puntuacion };
         string jsonData = JsonUtility.ToJson(data);
@@ -126,17 +125,25 @@ public class GoogleSheetsRanking : MonoBehaviour
 
             yield return www.SendWebRequest();
 
-            Debug.Log($"📨 Respuesta del servidor: {www.downloadHandler.text}");
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log($"📨 Respuesta del servidor: {www.downloadHandler.text}");
+            }
+            else
+            {
+                Debug.LogError($"❌ Error al enviar puntuación: {www.error}");
+            }
         }
     }
-    
+
     public void ObtenerRanking()
     {
+        Reset(); // Asegura que no haya datos duplicados
         ScrollView.SetActive(true);
         StartCoroutine(ObtenerRankingCoroutine());
     }
 
-    IEnumerator ObtenerRankingCoroutine()
+    private IEnumerator ObtenerRankingCoroutine()
     {
         using (UnityWebRequest www = UnityWebRequest.Get(apiUrl))
         {
@@ -145,39 +152,46 @@ public class GoogleSheetsRanking : MonoBehaviour
             if (www.result == UnityWebRequest.Result.Success)
             {
                 string jsonData = www.downloadHandler.text;
+                Debug.Log($"📥 Datos recibidos del servidor: {jsonData}");
 
-                // Deserializar usando el wrapper
                 RankingWrapper rankingData = JsonUtility.FromJson<RankingWrapper>("{\"ranking\":" + jsonData + "}");
-                
-                //Ordenamos la lista por puntos
-                rankingData.ranking.Sort((a, b) => b.puntuacion.CompareTo(a.puntuacion));
 
+                if (rankingData == null || rankingData.ranking == null || rankingData.ranking.Count == 0)
+                {
+                    Debug.LogError("⚠ Error: La lista de ranking está vacía o no se pudo deserializar correctamente.");
+                    yield break;
+                }
+
+                foreach (Transform child in contentPanel)
+                {
+                    Destroy(child.gameObject);
+                }
+
+                rankingData.ranking.Sort((a, b) => b.puntuacion.CompareTo(a.puntuacion));
                 int i = 1;
 
-                if (rankingData != null && rankingData.ranking != null)
+                foreach (var entry in rankingData.ranking)
                 {
-                    foreach (var entry in rankingData.ranking)
+                    Debug.Log($"🏆 Jugador: {entry.nombre} - Puntos: {entry.puntuacion}");
+
+                    if (contentPanel != null && rankingTextPrefab != null)
                     {
-                        Debug.Log($"🏆 Jugador: {entry.nombre} - Puntos: {entry.puntuacion}");
-
-                        if (contentPanel != null && rankingTextPrefab != null)
-                        {
-                            TextMeshProUGUI newText = Instantiate(rankingTextPrefab, contentPanel);
-                            newText.text = $"{i}.- {entry.nombre} - {entry.puntuacion}";
-                            i++;
-                        }
+                        TextMeshProUGUI newText = Instantiate(rankingTextPrefab, contentPanel);
+                        newText.text = $"{i}.- {entry.nombre} - {entry.puntuacion}";
+                        newText.enabled = true;
+                        i++;
                     }
+                    else
+                    {
+                        Debug.LogError("❌ Error: contentPanel o rankingTextPrefab es nulo.");
+                    }
+                }
 
-                    OnRankingUpdated.Invoke();
-                }
-                else
-                {
-                    Debug.LogError("⚠ Error al deserializar JSON. Verifica el formato.");
-                }
+                if (OnRankingUpdated != null) OnRankingUpdated.Invoke();
             }
             else
             {
-                Debug.LogError("❌ Error al obtener ranking: " + www.error);
+                Debug.LogError($"❌ Error al obtener ranking: {www.error}");
             }
         }
     }
