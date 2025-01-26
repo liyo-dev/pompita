@@ -16,6 +16,7 @@ public class VelocityGameController : MonoBehaviour
     public GameObject VFXConfeti;
     public TextMeshProUGUI nivel;
     public UnityAction OnIncrementLevel;
+    public UnityAction OnModoMaximo;
 
     private void Awake()
     {
@@ -32,6 +33,12 @@ public class VelocityGameController : MonoBehaviour
 
     private void IncrementLevel()
     {
+        if (level == 25)
+        {
+            OnModoMaximo?.Invoke();
+            AudioManager.Instance.PlayEpic();
+        }
+        
         if (level == 40)
         {
             CancelInvoke();
