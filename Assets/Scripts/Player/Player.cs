@@ -1,15 +1,15 @@
+using System;
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI vidasText;
     private int currentHealth;
     private Animator animator;
     private Camera cam;
-    public UnityEvent OnPlayerDeath;
+    public UnityEvent OnDoTransition;
     public UnityAction OnPlayerDeathAction;
     public GameObject VFXDead;
     public GameObject VFXReward;
@@ -22,7 +22,11 @@ public class Player : MonoBehaviour
     public GameObject Life5;
     public GameObject Life6;
 
-
+    private void OnDestroy()
+    {
+        AudioManager.Instance.PlayMenu();
+    }
+    
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
@@ -112,14 +116,14 @@ public class Player : MonoBehaviour
     {
         AudioManager.Instance.PlayDeathMusic();
         OnPlayerDeathAction.Invoke();
-        Invoke(nameof(RunGameOverEvent), 3f);
+        Invoke(nameof(RunTransition), 1.5f);
     }
 
-    void RunGameOverEvent()
+    void RunTransition()
     {
-        AudioManager.Instance.PlayMenu();
-        OnPlayerDeath.Invoke();
+        OnDoTransition.Invoke();
     }
+    
 
     public void ChangeVelocity(float velocity)
     {
