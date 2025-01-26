@@ -523,6 +523,7 @@ MonoBehaviour:
   backgroundMenuMusic: {fileID: 8300000, guid: 46c0e9fdd74f5c241b8a95f83b76ae8d, type: 3}
   backgroundGameMusic: {fileID: 8300000, guid: f9196409bfb9acc4bb6eb39ed217506c, type: 3}
   backgroundEpicMusic: {fileID: 8300000, guid: dbcb7559ef71b374d8a2a6806533dbf2, type: 3}
+  deathAudio: {fileID: 8300000, guid: 6585bfffb2590d24d9c328f7c55cb9f7, type: 3}
   auchList:
   - {fileID: 8300000, guid: 9c8ac7186121efc48a3d051671371f6e, type: 3}
   - {fileID: 8300000, guid: 53b7de169d104fb47b7078fb5cde4dde, type: 3}
@@ -537,7 +538,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 37bccfcfd98711c4f879ea8ac23a5e59, type: 3}
   - {fileID: 8300000, guid: 96d0d23a7cc551144b66171f8b0b75ea, type: 3}
   - {fileID: 8300000, guid: 4c46d49bc185e4345b5fa5bc672999c0, type: 3}
-  deathAudio: {fileID: 8300000, guid: 6585bfffb2590d24d9c328f7c55cb9f7, type: 3}
+  buttonClip: {fileID: 8300000, guid: 60779d49bd9e2a040be658ae9d9ca7ab, type: 3}
 --- !u!82 &197720529
 AudioSource:
   m_ObjectHideFlags: 0
