@@ -3,6 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class SceneManagerButtons : MonoBehaviour
 {
+    public void ButtonPressed()
+    {
+        AudioManager.Instance.PlayButton();
+    }
+
     /// <summary>
     /// Cambia a la escena especificada por nombre.
     /// </summary>
