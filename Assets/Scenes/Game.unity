@@ -651,7 +651,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &494038321
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1426,7 +1426,7 @@ GameObject:
   - component: {fileID: 1457780042}
   - component: {fileID: 1457780041}
   m_Layer: 5
-  m_Name: 0
+  m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2462,6 +2462,10 @@ MonoBehaviour:
   VFXDead: {fileID: 3223031359271505891, guid: 155410a7086d1d34ca48c448dfc33156, type: 3}
   VFXReward: {fileID: 1449242181322416601, guid: 052d5f6cf7d3ebc44bba49fbe653f9a8, type: 3}
   VFXExtraLife: {fileID: 8915500580573861359, guid: 9d11447644b0e0842a7edb034fe1ac72, type: 3}
+  Life1: {fileID: 1457780039}
+  Life25: {fileID: 1348941730}
+  Life75: {fileID: 2118089367}
+  Life100: {fileID: 1142448135}
 --- !u!1001 &1878509538
 PrefabInstance:
   m_ObjectHideFlags: 0

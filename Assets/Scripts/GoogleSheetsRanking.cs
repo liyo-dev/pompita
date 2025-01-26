@@ -15,8 +15,7 @@ public class RankingWrapper
 public class GoogleSheetsRanking : MonoBehaviour
 {
     public static GoogleSheetsRanking Instance { get; private set; }
-
-    [SerializeField] private TextMeshProUGUI rankingTextPrefab;
+    private TextMeshProUGUI rankingTextPrefab;
     [SerializeField] private Transform contentPanel;
     [SerializeField] private GameObject ScrollView;
     public UnityAction OnRankingUpdated;
@@ -37,6 +36,11 @@ public class GoogleSheetsRanking : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        rankingTextPrefab = GameObject.FindGameObjectWithTag("TextRanking").GetComponent<TextMeshProUGUI>();
     }
 
     public void Reset()

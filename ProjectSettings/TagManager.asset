@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - TextScore
+  - TextRanking
   layers:
   - Default
   - TransparentFX

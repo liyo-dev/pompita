@@ -25,7 +25,54 @@ public class TrapSpawner : MonoBehaviour
 
     private void IncrementLevel()
     {
-        
+        // Aumentar la velocidad de las trampas
+        velocSpeedMultiplier += 0.2f;
+
+        // Disminuir la tasa de generación de trampas para que salgan más rápido
+        spawnRate = Mathf.Max(0.5f, spawnRate * 0.9f); // Se reduce hasta un mínimo de 0.5 segundos
+
+        // Modificar la proporción de trampas generadas
+        AdjustTrapProbabilities();
+    }
+    
+    // Método para ajustar las probabilidades de las trampas
+    private void AdjustTrapProbabilities()
+    {
+        // Filtrar los prefabs por tipo
+        List<GameObject> bombs = new List<GameObject>();
+        List<GameObject> lives = new List<GameObject>();
+        List<GameObject> points = new List<GameObject>();
+
+        foreach (var trap in trapPrefabs)
+        {
+            if (trap.name.Contains("BOMBA")) // Asegúrate de que el nombre contenga "Bomba"
+                bombs.Add(trap);
+            else if (trap.name.Contains("EXTRALIFE")) // Asegúrate de que el nombre contenga "Vida"
+                lives.Add(trap);
+            else
+                points.Add(trap);
+        }
+
+        // Ajustar probabilidades
+        trapPrefabs.Clear();
+
+        int bombCount = Mathf.Clamp(5 + velocityGameController.Level, 5, 15); // Incrementa bombas
+        int lifeCount = Mathf.Clamp(5 - velocityGameController.Level, 1, 5);  // Reduce vidas
+
+        // Añadir bombas más veces en la lista para aumentar su probabilidad
+        for (int i = 0; i < bombCount; i++)
+        {
+            if (bombs.Count > 0) trapPrefabs.Add(bombs[Random.Range(0, bombs.Count)]);
+        }
+
+        // Añadir vidas menos veces en la lista para reducir su probabilidad
+        for (int i = 0; i < lifeCount; i++)
+        {
+            if (lives.Count > 0) trapPrefabs.Add(lives[Random.Range(0, lives.Count)]);
+        }
+
+        // Mantener los puntos en la lista
+        trapPrefabs.AddRange(points);
     }
 
     private IEnumerator SpawnTraps()
