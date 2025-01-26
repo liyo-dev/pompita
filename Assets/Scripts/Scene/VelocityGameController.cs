@@ -33,6 +33,8 @@ public class VelocityGameController : MonoBehaviour
 
     private void IncrementLevel()
     {
+        level++;
+        
         if (level == 20)
         {
             OnModoMaximo?.Invoke();
@@ -44,8 +46,7 @@ public class VelocityGameController : MonoBehaviour
             CancelInvoke();
             return;
         }
-
-        level++;
+        
         OnIncrementLevel?.Invoke();
         UpdateTextLevel();
         InstantiateConfetiVFX();
