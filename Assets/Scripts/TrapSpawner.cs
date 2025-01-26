@@ -82,7 +82,13 @@ public class TrapSpawner : MonoBehaviour
 
         for (int i = 0; i < spawnPositions.Length; i++)
         {
-            float angle = angleStep * i - 90f; // Limitamos de -90° a 90°
+            float angle = angleStep * i; // Limitamos de -90° a 90°
+            angle %= 360;
+            if (angle < 0) angle += 360;
+
+            if (angle > 45 && angle < 135)
+                angle -= 90;
+
             float radian = angle * Mathf.Deg2Rad;
             float x = Mathf.Cos(radian) * radius;
             float y = Mathf.Sin(radian) * radius * 0.5f; // Mantener las trampas abajo
