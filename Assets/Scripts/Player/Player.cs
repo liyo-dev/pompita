@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         currentHealth = 1;
-        UpdateHealthText();
+        ManageLifeUI();
     }
 
     public void AddPoint()
@@ -52,8 +52,6 @@ public class Player : MonoBehaviour
         {
             currentHealth = Utils.Variables.MaxHealth;
         }
-
-        UpdateHealthText();
     }
 
     void ManageLifeUI()
@@ -88,8 +86,6 @@ public class Player : MonoBehaviour
             animator.Play("Pompi muerte");
             InstantiateDeaadVFX();
         }
-
-        UpdateHealthText();
     }
 
     void InstantiateDeaadVFX()
@@ -119,11 +115,6 @@ public class Player : MonoBehaviour
     void RunGameOverEvent()
     {
         OnPlayerDeath.Invoke();
-    }
-
-    private void UpdateHealthText()
-    {
-        vidasText.text = "Vidas: " + currentHealth;
     }
 
     public void ChangeVelocity(float velocity)
