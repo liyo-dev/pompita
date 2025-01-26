@@ -15,7 +15,7 @@ public class ScoreUIManager : MonoBehaviour
     private void Start()
     {
         velocityGameController = GameObject.FindObjectOfType<VelocityGameController>();
-        velocityGameController.OnIncrementLevel += SetFastMode;
+        velocityGameController.OnModoMaximo += SetFastMode;
         UpdateScoreTextReference();
     }
 

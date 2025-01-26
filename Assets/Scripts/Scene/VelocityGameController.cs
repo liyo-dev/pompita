@@ -33,7 +33,7 @@ public class VelocityGameController : MonoBehaviour
 
     private void IncrementLevel()
     {
-        if (level == 25)
+        if (level == 20)
         {
             OnModoMaximo?.Invoke();
             AudioManager.Instance.PlayEpic();
