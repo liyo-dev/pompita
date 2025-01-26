@@ -77,7 +77,7 @@ public class TrapSpawner : MonoBehaviour
     private void SpawnTrap()
     {
         Vector3[] spawnPositions = new Vector3[10];
-        float angleStep = 180f / (spawnPositions.Length - 1); // Solo ángulos inferiores
+        float angleStep = 360f / (spawnPositions.Length - 1); // Solo ángulos inferiores
         float radius = spawnRangeX;
 
         for (int i = 0; i < spawnPositions.Length; i++)
