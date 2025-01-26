@@ -189,11 +189,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 061cac5b85ce12545a16e5c764b4e944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 5839987712823249750}
+  sourceImage: {fileID: 7625350910260597419}
   sprites:
   - {fileID: 21300000, guid: 43f85e0a5a7dbbc4cb11a4557e61b82c, type: 3}
   - {fileID: 21300000, guid: 28738fb544db4b74d82e2810210714e4, type: 3}
   - {fileID: 21300000, guid: c209ab6e43474674896c151e09dcd51d, type: 3}
   - {fileID: 21300000, guid: d7003a9e285b7c0449e390ecf3e1b129, type: 3}
-  - {fileID: 21300000, guid: 96c89647c2dadd34d8c274fc5cd58b6e, type: 3}
   frameRate: 0.1
