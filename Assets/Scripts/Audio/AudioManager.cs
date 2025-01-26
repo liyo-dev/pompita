@@ -12,12 +12,13 @@ public class AudioManager : MonoBehaviour
     public AudioClip backgroundMenuMusic; // M�sica de fondo inicial
     public AudioClip backgroundGameMusic; // M�sica de fondo inicial
     public AudioClip backgroundEpicMusic; // M�sica de fondo inicial
+    public AudioClip deathAudio;
 
     [Header("Audios SFX")]
     public AudioClip[] auchList;
     public AudioClip[] wihList;
     public AudioClip[] popList;
-    public AudioClip deathAudio;
+    public AudioClip buttonClip;
 
     private void Awake()
     {
@@ -111,5 +112,10 @@ public class AudioManager : MonoBehaviour
     public void PlayDeathMusic()
     {
         PlayMusic(deathAudio);
+    }
+
+    public void PlayButton()
+    {
+        PlaySFX(buttonClip);
     }
 }
