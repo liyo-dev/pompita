@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     private Animator animator;
     private Camera cam;
     public UnityEvent OnPlayerDeath;
+    public UnityAction OnPlayerDeathAction;
     public GameObject VFXDead;
     public GameObject VFXReward;
     public GameObject VFXExtraLife;
@@ -109,6 +110,7 @@ public class Player : MonoBehaviour
 
     private void GameOver()
     {
+        OnPlayerDeathAction.Invoke();
         Invoke(nameof(RunGameOverEvent), 2f);
     }
 

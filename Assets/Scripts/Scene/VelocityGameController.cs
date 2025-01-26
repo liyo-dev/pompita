@@ -27,6 +27,7 @@ public class VelocityGameController : MonoBehaviour
         level = 1;
         UpdateTextLevel();
         InvokeRepeating(nameof(IncrementLevel), TimeBetweenLevels, TimeBetweenLevels);
+        player.OnPlayerDeathAction += FinishGame;
     }
 
     private void IncrementLevel()
@@ -67,6 +68,19 @@ public class VelocityGameController : MonoBehaviour
             nivel.gameObject.SetActive(false);
             nivel.transform.localScale = Vector3.one;
         });
+    }
+
+    private void FinishGame()
+    {
+        CancelInvoke();
+        trapSpawner.SetVelocSpeedMultiplier(0);
+        trapSpawner.spawnRate = int.MaxValue;
+        velocityGame = 0f;
+        player.ChangeVelocity(1f);
+        Rigidbody rb = player.GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        trapSpawner.SetVelocSpeedMultiplier(velocityGame);
+        dotRotate.IncrementVelocity(velocityGame);
     }
 
 }
