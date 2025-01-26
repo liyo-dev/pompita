@@ -28,6 +28,7 @@ public class RankingService : MonoBehaviour
         if (CheckTop5)
         {
             var top5List = rankingInstance.GetTop5String();
+            Debug.Log("Top 5: " + string.Join("\n", top5List));
             top5String.text = string.Join("\n", top5List);
         }
         OnRankingDone.Invoke();

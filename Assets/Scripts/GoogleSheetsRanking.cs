@@ -75,7 +75,7 @@ public class GoogleSheetsRanking : MonoBehaviour
     {
         StartCoroutine(GetTop5Coroutine());
     }
-
+    
     private IEnumerator GetTop5Coroutine()
     {
         using (UnityWebRequest www = UnityWebRequest.Get(apiUrl))
