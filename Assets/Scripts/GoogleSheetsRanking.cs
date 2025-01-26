@@ -85,35 +85,33 @@ public class GoogleSheetsRanking : MonoBehaviour
             if (www.result == UnityWebRequest.Result.Success)
             {
                 string jsonData = www.downloadHandler.text;
+                Debug.Log($"📥 JSON recibido: {jsonData}");
 
-                // Deserialize using the wrapper
                 RankingWrapper rankingData = JsonUtility.FromJson<RankingWrapper>("{\"ranking\":" + jsonData + "}");
 
-                if (rankingData != null && rankingData.ranking != null)
+                if (rankingData != null && rankingData.ranking != null && rankingData.ranking.Count > 0)
                 {
                     rankingData.ranking.Sort((a, b) => b.puntuacion.CompareTo(a.puntuacion));
-
-                    int count = 0;
                     top5List.Clear();
 
+                    int count = 0;
                     foreach (var entry in rankingData.ranking)
                     {
                         if (count >= 5) break;
-                        Debug.Log($"🏆 Player: {entry.nombre} - Points: {entry.puntuacion}");
                         top5List.Add($"{entry.nombre} - {entry.puntuacion}");
                         count++;
                     }
 
-                    OnRankingUpdated.Invoke();
+                    if (OnRankingUpdated != null) OnRankingUpdated.Invoke();
                 }
                 else
                 {
-                    Debug.LogError("⚠ Error deserializing JSON. Check the format.");
+                    Debug.LogError("⚠ Error al deserializar JSON. Verifica el formato.");
                 }
             }
             else
             {
-                Debug.LogError("❌ Error fetching ranking: " + www.error);
+                Debug.LogError($"❌ Error HTTP: {www.responseCode}, Detalle: {www.error}");
             }
         }
     }

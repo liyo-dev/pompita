@@ -116,7 +116,7 @@ public class Player : MonoBehaviour
     {
         AudioManager.Instance.PlayDeathMusic();
         OnPlayerDeathAction.Invoke();
-        Invoke(nameof(RunTransition), 1.5f);
+        Invoke(nameof(RunTransition), 1f);
     }
 
     void RunTransition()
