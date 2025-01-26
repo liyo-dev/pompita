@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] auchList;
     public AudioClip[] wihList;
     public AudioClip[] popList;
+    public AudioClip deathAudio;
 
     private void Awake()
     {
@@ -105,5 +106,10 @@ public class AudioManager : MonoBehaviour
     public void PlayEpic()
     {
         PlayMusic(backgroundEpicMusic);
+    }
+
+    public void PlayDeathMusic()
+    {
+        PlayMusic(deathAudio);
     }
 }

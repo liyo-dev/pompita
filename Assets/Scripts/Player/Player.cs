@@ -110,12 +110,14 @@ public class Player : MonoBehaviour
 
     private void GameOver()
     {
+        AudioManager.Instance.PlayDeathMusic();
         OnPlayerDeathAction.Invoke();
-        Invoke(nameof(RunGameOverEvent), 2f);
+        Invoke(nameof(RunGameOverEvent), 3f);
     }
 
     void RunGameOverEvent()
     {
+        AudioManager.Instance.PlayMenu();
         OnPlayerDeath.Invoke();
     }
 
