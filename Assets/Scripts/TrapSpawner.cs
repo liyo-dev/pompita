@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TrapSpawner : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class TrapSpawner : MonoBehaviour
     public float velocSpeedMultiplier = 1f;
     public List<GameObject> trapPrefabs;
     private VelocityGameController velocityGameController;
+    public UnityAction FinishAction;
 
     // 0 -> Puntos
     // 1 -> Bomba
@@ -34,7 +36,7 @@ public class TrapSpawner : MonoBehaviour
         // Modificar la proporción de trampas generadas
         AdjustTrapProbabilities();
     }
-    
+
     // Método para ajustar las probabilidades de las trampas
     private void AdjustTrapProbabilities()
     {
@@ -45,9 +47,9 @@ public class TrapSpawner : MonoBehaviour
 
         foreach (var trap in trapPrefabs)
         {
-            if (trap.name.Contains("BOMBA")) 
+            if (trap.name.Contains("BOMBA"))
                 bombs.Add(trap);
-            else if (trap.name.Contains("EXTRALIFE")) 
+            else if (trap.name.Contains("EXTRALIFE"))
                 lives.Add(trap);
             else
                 points.Add(trap);
@@ -79,7 +81,7 @@ public class TrapSpawner : MonoBehaviour
             if (points.Count > 0) trapPrefabs.Add(points[Random.Range(0, points.Count)]);
         }
     }
-    
+
     private IEnumerator SpawnTraps()
     {
         while (true)
@@ -115,15 +117,23 @@ public class TrapSpawner : MonoBehaviour
         GameObject trap = Instantiate(trapPrefab, spawnPosition, Quaternion.identity);
 
         // Asignar el script de movimiento a la trampa
-        trap.AddComponent<TrapMover>().speed = trapSpeed * velocSpeedMultiplier;
+        TrapMover trapmover = trap.AddComponent<TrapMover>();
+        trapmover.speed = trapSpeed * velocSpeedMultiplier;
+        trapmover.AddSpawner(this);
     }
-    
+
     // Método para cambiar la velocidad de las trampas
     public void SetVelocSpeedMultiplier(float multiplier)
     {
+        if (multiplier == 0)
+        {
+            StopAllCoroutines();
+            FinishAction.Invoke();
+        }
+
         velocSpeedMultiplier = multiplier;
     }
-    
+
     // Método para resetear la velocidad de las trampas
     public void ResetVelocSpeedMultiplier()
     {
