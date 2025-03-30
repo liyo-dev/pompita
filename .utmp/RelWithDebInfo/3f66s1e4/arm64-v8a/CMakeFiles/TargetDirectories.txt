@@ -1,0 +1,5 @@
+C:/Users/luarb/dev/unity/Pompita/.utmp/RelWithDebInfo/3f66s1e4/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/luarb/dev/unity/Pompita/.utmp/RelWithDebInfo/3f66s1e4/arm64-v8a/CMakeFiles/rebuild_cache.dir
+C:/Users/luarb/dev/unity/Pompita/.utmp/RelWithDebInfo/3f66s1e4/arm64-v8a/GameActivity/CMakeFiles/game.dir
+C:/Users/luarb/dev/unity/Pompita/.utmp/RelWithDebInfo/3f66s1e4/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+C:/Users/luarb/dev/unity/Pompita/.utmp/RelWithDebInfo/3f66s1e4/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir
